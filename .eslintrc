@@ -1,0 +1,17 @@
+{
+  "extends": "airbnb-base",
+  "overrides": [
+    {
+      "files": ["*.js"],
+      "rules": {
+        "no-underscore-dangle": "off",
+        "import/extensions": [
+          "error",
+          {
+              "js": "ignorePackages"
+          }
+        ]
+      }
+    }
+  ]
+}
