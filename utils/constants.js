@@ -3,6 +3,8 @@ import errorMessages from './strings.js';
 export const RATE_LIMITER_MAX_REQUESTS = 1000;
 export const RATE_LIMITER_WINDOW = 15 * 60 * 1000; // 15 minutes
 
+export const DEFAULT_ALLOWED_METHODS = 'GET,HEAD,PUT,PATCH,POST,DELETE';
+
 export const statusCodes = {
   CREATED: 201,
   BAD_REQUEST: 400,

@@ -7,7 +7,8 @@
   "scripts": {
     "start": "node --experimental-modules server.js",
     "dev": "nodemon --experimental-modules server.js",
-    "lint": "npx eslint ."
+    "lint": "npx eslint .",
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -20,10 +21,13 @@
   },
   "homepage": "https://github.com/idegtyarenko/movies-explorer-api#readme",
   "devDependencies": {
+    "@babel/plugin-transform-modules-commonjs": "^7.22.5",
     "eslint": "^8.46.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.28.0",
-    "nodemon": "^3.0.1"
+    "jest": "^29.6.2",
+    "nodemon": "^3.0.1",
+    "supertest": "^6.3.3"
   },
   "dependencies": {
     "body-parser": "^1.20.2",
