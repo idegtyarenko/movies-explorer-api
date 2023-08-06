@@ -1,0 +1,23 @@
+{
+  "name": "movies-explorer-api",
+  "version": "1.0.0",
+  "description": "Server API for storing user and movie data for Movies explorer",
+  "main": "app.js",
+  "scripts": {
+    "start": "node --experimental-modules app.js",
+    "dev": "nodemon --experimental-modules app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/idegtyarenko/movies-explorer-api.git"
+  },
+  "author": "Ivan Degtiarenko",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/idegtyarenko/movies-explorer-api/issues"
+  },
+  "homepage": "https://github.com/idegtyarenko/movies-explorer-api#readme",
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
