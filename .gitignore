@@ -1,5 +1,5 @@
 # Logs
-backend/logs
+logs
 *.log
 
 # Dependency directory
