@@ -3,6 +3,7 @@ import validator from 'validator';
 import bcrypt from 'bcryptjs';
 
 import InvalidCredentialsError from '../errors/InvalidCredentialsError.js';
+import { userValidationSettings as settings } from '../utils/constants.js';
 
 const userSchema = new Schema({
   email: {
@@ -20,8 +21,8 @@ const userSchema = new Schema({
   name: {
     type: String,
     required: true,
-    minlength: 2,
-    maxlength: 30,
+    minlength: settings.NAME_MIN,
+    maxlength: settings.NAME_MAX,
   },
 });
 

@@ -10,6 +10,14 @@ export const HASH_SALT_LENGTH = 10;
 export const JWT_SETTINGS = { expiresIn: '7d' };
 export const JWT_COOKIE_MAX_AGE = 1000 * 60 * 60 * 24 * 7; // 1 week
 
+export const userValidationSettings = {
+  EMAIL_MAX: 128,
+  PASSWORD_MIN: 6,
+  PASSWORD_MAX: 30,
+  NAME_MIN: 2,
+  NAME_MAX: 30,
+};
+
 export const statusCodes = {
   CREATED: 201,
   BAD_REQUEST: 400,
