@@ -8,7 +8,7 @@
     "start": "node --experimental-modules server.js",
     "dev": "nodemon --experimental-modules server.js",
     "lint": "npx eslint .",
-    "test": "jest"
+    "test": "jest --coverage"
   },
   "repository": {
     "type": "git",

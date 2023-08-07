@@ -11,8 +11,7 @@ describe('Common headers', () => {
   const requestHeaders = 'content-type';
 
   it('OPTIONS response contains CORS headers', async () => {
-    const res = await request
-      .options('/')
+    const res = await request.options('/')
       .set({
         Origin: origin,
         'Access-Control-Request-Headers': requestHeaders,
