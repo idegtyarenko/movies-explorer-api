@@ -2,7 +2,7 @@ import supertest from 'supertest';
 
 import app from '../app.js';
 import { statusCodes, DEFAULT_ALLOWED_METHODS } from '../utils/constants.js';
-import errorMessages from '../utils/strings.js';
+import { errorMessages } from '../utils/strings.js';
 
 const request = supertest(app);
 

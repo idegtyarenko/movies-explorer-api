@@ -1,5 +1,5 @@
 import { statusCodes } from '../utils/constants.js';
-import errorMessages from '../utils/strings.js';
+import { errorMessages } from '../utils/strings.js';
 
 export default function errorHandler(err, req, res, next) {
   const { statusCode = statusCodes.INTERNAL_SERVER_ERROR, message } = err;

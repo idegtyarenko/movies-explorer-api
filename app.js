@@ -8,7 +8,7 @@ import rateLimiter from './middlewares/rateLimiter.js';
 import cors from './middlewares/cors.js';
 import { requestLogger, errorLogger } from './middlewares/logger.js';
 import router from './routes/index.js';
-import { VALIDATION_ERRORS_SETTINGS } from './utils/constants.js';
+import { CELEBRATE_VALIDATION_ERRORS_SETTINGS } from './utils/constants.js';
 import errorHandler from './middlewares/errorHandler.js';
 
 const app = express();
@@ -21,7 +21,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use('/', router);
 app.use(errorLogger);
-app.use(validationErrors(VALIDATION_ERRORS_SETTINGS));
+app.use(validationErrors(CELEBRATE_VALIDATION_ERRORS_SETTINGS));
 app.use(errorHandler);
 
 export default app;
