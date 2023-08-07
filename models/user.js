@@ -1,11 +1,12 @@
-import mongoose, { Schema } from 'mongoose';
+import mongoose from 'mongoose';
 import validator from 'validator';
 import bcrypt from 'bcryptjs';
 
+import SchemaWithEscapedFields from './SchemaWithEscapedFields.js';
 import InvalidCredentialsError from '../errors/InvalidCredentialsError.js';
 import { userValidationSettings as settings } from '../utils/constants.js';
 
-const userSchema = new Schema({
+const userSchema = new SchemaWithEscapedFields({
   email: {
     type: String,
     required: true,
@@ -24,7 +25,7 @@ const userSchema = new Schema({
     minlength: settings.NAME_MIN,
     maxlength: settings.NAME_MAX,
   },
-});
+}, ['name']);
 
 userSchema.statics.findByCredentials = function findUserByCredentials(email, password) {
   return this.findOne({ email }).select('+password')

@@ -42,9 +42,9 @@ describe('Sign up', () => {
     await User.findOneAndDelete({ email: DEFAULT_USER.email });
     const res = await request.post('/signup').send(errorUsers.SPECIAL_CHARACTERS);
     expect(res.status).toBe(statusCodes.CREATED);
-    expect(res.headers['set-cookie'][0]).toMatch(/^jwt=.+; Max-Age=604800; Path=.+; Expires=.+; HttpOnly; SameSite=Strict/);
+    expect(res.headers['set-cookie'][0]).toMatch(AUTH_COOKIE_REGEX);
     const user = await User.findOne({ email: DEFAULT_USER.email });
-    expect(user.name).toBe('\\"\\&lt;&gt;&amp;');
+    expect(user.name).toBe('&quot;\\&lt;&gt;&amp;');
   });
 });
 
