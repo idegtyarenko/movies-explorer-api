@@ -33,11 +33,10 @@ describe('Sign up', () => {
     expect(res.status).toBe(statusCodes.CONFLICT);
     expect(res.body.message).toBe(errorMessages.CONFLICTING_EMAIL);
   });
-  it.todo('Does not allow invalid email');
-  it.todo('Saves name with escaped special characters');
-  it.todo('Does not allow name to be too short');
-  it.todo('Does not allow name to be too long');
-  it.todo('Does not allow any of the fields to be empty');
+  it.todo('Does not allow empty, invalid, or too long email');
+  it.todo('Escapes special characters when saving name');
+  it.todo('Does not allow empty name or name of invalid length');
+  it.todo('Does not allow empty password or password of invalid length');
 });
 
 describe('Sign in', () => {});
