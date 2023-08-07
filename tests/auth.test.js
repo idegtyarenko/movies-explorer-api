@@ -14,7 +14,6 @@ const request = supertest(app);
 const AUTH_COOKIE_REGEX = /^jwt=.+; Max-Age=604800; Path=.+; Expires=.+; HttpOnly; SameSite=Strict/;
 
 beforeAll(() => mongoose.connect(DATABASE_URL));
-
 afterAll(() => mongoose.disconnect());
 
 describe('Sign up', () => {
@@ -105,17 +104,21 @@ describe('Sign up validation errors', () => {
 });
 
 describe('Sign in', () => {
+  beforeAll(() => request.post('/signup').send(DEFAULT_USER));
+
   it('Returns correct status and a cookie with jwt', async () => {
     const res = await request.post('/signin').send(credentials.CORRECT);
     expect(res.status).toBe(statusCodes.OK);
     expect(res.headers['set-cookie'][0]).toMatch(AUTH_COOKIE_REGEX);
   });
+
   it('Respond correctly to incorrect email', async () => {
     const res = await request.post('/signin').send(credentials.WRONG_EMAIL);
     expect(res.status).toBe(statusCodes.UNAUTHORIZED);
     expect(res.body.message).toBe(errorMessages.INVALID_CREDENTIALS);
     expect(res.headers['set-cookie']).toBeUndefined();
   });
+
   it('Respond correctly to incorrect password', async () => {
     const res = await request.post('/signin').send(credentials.WRONG_PASSWORD);
     expect(res.status).toBe(statusCodes.UNAUTHORIZED);
@@ -125,6 +128,8 @@ describe('Sign in', () => {
 });
 
 describe('Sign out', () => {
+  beforeAll(() => request.post('/signup').send(DEFAULT_USER));
+
   it('Sends cookie with empty jwt', async () => {
     const res = await request.post('/signout');
     expect(res.status).toBe(statusCodes.OK);
