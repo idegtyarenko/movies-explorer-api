@@ -17,28 +17,25 @@ beforeAll(() => mongoose.connect(DATABASE_URL));
 afterAll(() => mongoose.disconnect());
 
 describe('Sign up', () => {
-  beforeAll(() => User.findOneAndDelete({ email: DEFAULT_USER.email }));
+  beforeEach(() => User.findOneAndDelete({ email: DEFAULT_USER.email }));
 
-  it('Returns correct status and a cookie with jwt', async () => {
+  it('Returns correct status and a cookie with jwt and saves user with hashed password', async () => {
     const res = await request.post('/signup').send(DEFAULT_USER);
     expect(res.status).toBe(statusCodes.CREATED);
     expect(res.headers['set-cookie'][0]).toMatch(AUTH_COOKIE_REGEX);
-  });
-
-  it('Saves user in database with hashed password', async () => {
     const user = await User.findOne({ email: DEFAULT_USER.email }).select('+password');
     expect(user).toBeDefined();
     expect(bcrypt.compare(user.password, DEFAULT_USER.password)).toBeTruthy();
   });
 
   it('Does not allow to sign up with the same email twice', async () => {
+    await request.post('/signup').send(DEFAULT_USER);
     const res = await request.post('/signup').send(DEFAULT_USER);
     expect(res.status).toBe(statusCodes.CONFLICT);
     expect(res.body.message).toBe(errorMessages.CONFLICTING_EMAIL);
   });
 
   it('Escapes special characters when saving name', async () => {
-    await User.findOneAndDelete({ email: DEFAULT_USER.email });
     const res = await request.post('/signup').send(errorUsers.SPECIAL_CHARACTERS);
     expect(res.status).toBe(statusCodes.CREATED);
     expect(res.headers['set-cookie'][0]).toMatch(AUTH_COOKIE_REGEX);
