@@ -14,6 +14,8 @@ import { JWT_KEY } from '../utils/config.js';
 import User from '../models/user.js';
 import ValidationError from '../errors/ValidationError.js';
 import ConflictingEmailError from '../errors/ConflictingEmailError.js';
+import NotFoundError from '../errors/NotFoundError.js';
+import InvalidIdError from '../errors/InvalidIdError.js';
 
 async function createUser(data) {
   const preparedData = data;
@@ -40,8 +42,7 @@ export function signup(req, res, next) {
       res.send({ message: successMessages.SIGNUP });
     })
     .catch((err) => {
-      const { ValidationError: MongooseValidationError } = MongooseError;
-      if (err instanceof MongooseValidationError) {
+      if (err instanceof MongooseError.ValidationError) {
         next(new ValidationError());
       } else if (err.code === MONGOOSE_CONFLICT_ERROR_CODE) {
         next(new ConflictingEmailError());
@@ -67,4 +68,26 @@ export function signout(req, res, next) {
   } catch (err) {
     next(err);
   }
+}
+
+export function getCurrentUser(req, res, next) {
+  User.findById(req.user._id)
+    .then((user) => {
+      if (user === null) {
+        throw new NotFoundError();
+      } else {
+        res.send(user);
+      }
+    })
+    .catch((err) => {
+      if (err instanceof MongooseError.CastError) {
+        next(new InvalidIdError());
+      } else {
+        next(err);
+      }
+    });
+}
+
+export function updateCurrentUser(req, res, next) {
+  throw Error('Not implemented');
 }

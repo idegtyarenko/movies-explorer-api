@@ -1,5 +1,6 @@
 export const errorMessages = {
   CONFLICTING_EMAIL: 'Пользователь с таким email уже существует',
+  FORBIDDEN: 'Требуется авторизация',
   INTERNAL_SERVER_ERROR: 'На сервере произошла ошибка',
   INVALID_CREDENTIALS: 'Вы ввели неправильный логин или пароль',
   INVALID_ID: 'Некорректный идентификатор ресурса',
