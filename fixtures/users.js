@@ -6,6 +6,12 @@ export const DEFAULT_USER = {
   name: 'Ewan McBundle Jr.',
 };
 
+export const UPDATED_USER = {
+  email: 'another.email@testdomain.com',
+  password: 'passwordpassword',
+  name: 'John McCoughlin Sr.',
+};
+
 export const errorUsers = {
   EMPTY_EMAIL: { ...DEFAULT_USER, email: undefined },
   INVALID_EMAIL: { ...DEFAULT_USER, email: 'iamnot@nemail' },
