@@ -17,10 +17,15 @@ import ConflictingEmailError from '../errors/ConflictingEmailError.js';
 import NotFoundError from '../errors/NotFoundError.js';
 import InvalidIdError from '../errors/InvalidIdError.js';
 
+async function prepareUserData(data) {
+  return {
+    ...data,
+    password: await bcrypt.hash(data.password, HASH_SALT_LENGTH),
+  };
+}
+
 async function createUser(data) {
-  const preparedData = data;
-  preparedData.password = await bcrypt.hash(data.password, HASH_SALT_LENGTH);
-  return User.create(data);
+  return User.create(prepareUserData(data));
 }
 
 function setAuthCookie(user, res) {
@@ -89,5 +94,27 @@ export function getCurrentUser(req, res, next) {
 }
 
 export function updateCurrentUser(req, res, next) {
-  throw Error('Not implemented');
+  User.findByIdAndUpdate(
+    req.user._id,
+    prepareUserData(req.body),
+    { new: true, runValidators: true },
+  )
+    .then((user) => {
+      if (user === null) {
+        throw new NotFoundError();
+      } else {
+        res.send(user);
+      }
+    })
+    .catch((err) => {
+      if (err instanceof MongooseError.CastError) {
+        next(new InvalidIdError());
+      } else if (err instanceof MongooseError.ValidationError) {
+        next(new ValidationError());
+      } else if (err.code === MONGOOSE_CONFLICT_ERROR_CODE) {
+        next(new ConflictingEmailError());
+      } else {
+        next(err);
+      }
+    });
 }
