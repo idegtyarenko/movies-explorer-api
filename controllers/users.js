@@ -37,21 +37,21 @@ function setAuthCookie(user, res) {
 }
 
 export async function signup(req, res, next) {
-  User.create(await prepareData(req.body))
-    .then((user) => {
-      setAuthCookie(user, res);
-      res.status(statusCodes.CREATED);
-      res.send({ message: successMessages.SIGNUP });
-    })
-    .catch((err) => {
-      if (err instanceof MongooseError.ValidationError) {
-        next(new ValidationError());
-      } else if (err.code === MONGOOSE_CONFLICT_ERROR_CODE) {
-        next(new ConflictingEmailError());
-      } else {
-        next(err);
-      }
-    });
+  try {
+    const userData = await prepareData(req.body);
+    const user = await User.create(userData);
+    setAuthCookie(user, res);
+    res.status(statusCodes.CREATED);
+    res.send({ message: successMessages.SIGNUP });
+  } catch (err) {
+    if (err instanceof MongooseError.ValidationError) {
+      next(new ValidationError());
+    } else if (err.code === MONGOOSE_CONFLICT_ERROR_CODE) {
+      next(new ConflictingEmailError());
+    } else {
+      next(err);
+    }
+  }
 }
 
 export function signin(req, res, next) {
