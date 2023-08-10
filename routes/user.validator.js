@@ -2,12 +2,18 @@ import { celebrate, Joi } from 'celebrate';
 
 import { userValidationSettings as settings } from '../utils/constants.js';
 
-const email = Joi.string().email().required().max(settings.EMAIL_MAX);
-const password = Joi.string().required().min(settings.PASSWORD_MIN).max(settings.PASSWORD_MAX);
-const name = Joi.string().required().min(settings.NAME_MIN).max(settings.NAME_MAX);
+const email = Joi.string().email().max(settings.EMAIL_MAX);
+const password = Joi.string().min(settings.PASSWORD_MIN).max(settings.PASSWORD_MAX);
+const name = Joi.string().min(settings.NAME_MIN).max(settings.NAME_MAX);
 
-const validator = celebrate({
+export const anyUserFields = celebrate({
   body: Joi.object().keys({ email, password, name }),
 });
 
-export default validator;
+export const allUserFields = celebrate({
+  body: Joi.object().keys({
+    email: email.required(),
+    password: password.required(),
+    name: name.required(),
+  }),
+});

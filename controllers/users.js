@@ -17,15 +17,12 @@ import ConflictingEmailError from '../errors/ConflictingEmailError.js';
 import NotFoundError from '../errors/NotFoundError.js';
 import InvalidIdError from '../errors/InvalidIdError.js';
 
-async function prepareUserData(data) {
+async function prepareData(data) {
+  const hash = data.password ? await bcrypt.hash(data.password, HASH_SALT_LENGTH) : undefined;
   return {
     ...data,
-    password: await bcrypt.hash(data.password, HASH_SALT_LENGTH),
+    password: hash,
   };
-}
-
-async function createUser(data) {
-  return User.create(prepareUserData(data));
 }
 
 function setAuthCookie(user, res) {
@@ -39,8 +36,8 @@ function setAuthCookie(user, res) {
   res.cookie('jwt', token, cookieSettings);
 }
 
-export function signup(req, res, next) {
-  createUser(req.body)
+export async function signup(req, res, next) {
+  User.create(await prepareData(req.body))
     .then((user) => {
       setAuthCookie(user, res);
       res.status(statusCodes.CREATED);
@@ -93,10 +90,10 @@ export function getCurrentUser(req, res, next) {
     });
 }
 
-export function updateCurrentUser(req, res, next) {
+export async function updateCurrentUser(req, res, next) {
   User.findByIdAndUpdate(
     req.user._id,
-    prepareUserData(req.body),
+    await prepareData(req.body),
     { new: true, runValidators: true },
   )
     .then((user) => {
