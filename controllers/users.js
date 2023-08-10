@@ -54,14 +54,15 @@ export async function signup(req, res, next) {
   }
 }
 
-export function signin(req, res, next) {
+export async function signin(req, res, next) {
   const { email, password } = req.body;
-  User.findByCredentials(email, password)
-    .then((user) => {
-      setAuthCookie(user, res);
-      res.send({ message: successMessages.SIGNIN });
-    })
-    .catch(next);
+  try {
+    const user = await User.findByCredentials(email, password);
+    setAuthCookie(user, res);
+    res.send({ message: successMessages.SIGNIN });
+  } catch (err) {
+    next(err);
+  }
 }
 
 export function signout(req, res, next) {
@@ -72,46 +73,43 @@ export function signout(req, res, next) {
   }
 }
 
-export function getCurrentUser(req, res, next) {
-  User.findById(req.user._id)
-    .then((user) => {
-      if (user === null) {
-        throw new NotFoundError();
-      } else {
-        res.send(user);
-      }
-    })
-    .catch((err) => {
-      if (err instanceof MongooseError.CastError) {
-        next(new InvalidIdError());
-      } else {
-        next(err);
-      }
-    });
+export async function getCurrentUser(req, res, next) {
+  try {
+    const user = await User.findById(req.user._id);
+    if (user === null) {
+      throw new NotFoundError();
+    } else {
+      res.send(user);
+    }
+  } catch (err) {
+    if (err instanceof MongooseError.CastError) {
+      next(new InvalidIdError());
+    } else {
+      next(err);
+    }
+  }
 }
 
 export async function updateCurrentUser(req, res, next) {
-  User.findByIdAndUpdate(
-    req.user._id,
-    await prepareData(req.body),
-    { new: true, runValidators: true },
-  )
-    .then((user) => {
-      if (user === null) {
-        throw new NotFoundError();
-      } else {
-        res.send(user);
-      }
-    })
-    .catch((err) => {
-      if (err instanceof MongooseError.CastError) {
-        next(new InvalidIdError());
-      } else if (err instanceof MongooseError.ValidationError) {
-        next(new ValidationError());
-      } else if (err.code === MONGOOSE_CONFLICT_ERROR_CODE) {
-        next(new ConflictingEmailError());
-      } else {
-        next(err);
-      }
-    });
+  try {
+    const id = req.user._id;
+    const data = await prepareData(req.body);
+    const settings = { new: true, runValidators: true };
+    const user = await User.findByIdAndUpdate(id, data, settings);
+    if (user === null) {
+      throw new NotFoundError();
+    } else {
+      res.send(user);
+    }
+  } catch (err) {
+    if (err instanceof MongooseError.CastError) {
+      next(new InvalidIdError());
+    } else if (err instanceof MongooseError.ValidationError) {
+      next(new ValidationError());
+    } else if (err.code === MONGOOSE_CONFLICT_ERROR_CODE) {
+      next(new ConflictingEmailError());
+    } else {
+      next(err);
+    }
+  }
 }

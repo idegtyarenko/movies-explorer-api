@@ -27,21 +27,16 @@ const userSchema = new SchemaWithEscapedFields({
   },
 }, ['name']);
 
-userSchema.statics.findByCredentials = function findUserByCredentials(email, password) {
-  return this.findOne({ email }).select('+password')
-    .then((user) => {
-      if (!user) {
-        return Promise.reject(new InvalidCredentialsError());
-      }
-
-      return bcrypt.compare(password, user.password)
-        .then((matched) => {
-          if (!matched) {
-            return Promise.reject(new InvalidCredentialsError());
-          }
-          return user;
-        });
-    });
+userSchema.statics.findByCredentials = async function findUserByCredentials(email, password) {
+  const user = await this.findOne({ email }).select('+password');
+  if (!user) {
+    return Promise.reject(new InvalidCredentialsError());
+  }
+  const passwordMatched = await bcrypt.compare(password, user.password);
+  if (!passwordMatched) {
+    return Promise.reject(new InvalidCredentialsError());
+  }
+  return user;
 };
 
 export default mongoose.model('user', userSchema);
