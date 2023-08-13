@@ -1,7 +1,7 @@
 import express from 'express';
 
 import { signup, signin, signout } from '../controllers/users.js';
-import { allUserFields } from './user.validator.js';
+import { allUserFields } from '../validators/user.js';
 import auth from '../middlewares/auth.js';
 import users from './users.js';
 import movies from './movies.js';

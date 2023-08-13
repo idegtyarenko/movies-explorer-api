@@ -1,7 +1,7 @@
 import express from 'express';
 
 import { getCurrentUser, updateCurrentUser } from '../controllers/users.js';
-import { anyUserFields } from './user.validator.js';
+import { anyUserFields } from '../validators/user.js';
 
 const router = express.Router();
 

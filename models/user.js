@@ -4,7 +4,7 @@ import bcrypt from 'bcryptjs';
 
 import SchemaWithEscapedFields from './SchemaWithEscapedFields.js';
 import InvalidCredentialsError from '../errors/InvalidCredentialsError.js';
-import { userValidationSettings as settings } from '../utils/constants.js';
+import { validationSettings as settings } from '../utils/constants.js';
 
 const userSchema = new SchemaWithEscapedFields({
   email: {

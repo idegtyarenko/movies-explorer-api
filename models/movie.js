@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import validator from 'validator';
 
 import SchemaWithEscapedFields from './SchemaWithEscapedFields.js';
-import { movieValidationSettings as settings } from '../utils/constants.js';
+import { validationSettings as settings } from '../utils/constants.js';
 
 const shortString = {
   type: String,
