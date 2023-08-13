@@ -11,9 +11,5 @@ export const anyUserFields = celebrate({
 });
 
 export const allUserFields = celebrate({
-  body: Joi.object().keys({
-    email: email.required(),
-    password: password.required(),
-    name: name.required(),
-  }),
+  body: Joi.object({ email, password, name }),
 });
