@@ -5,8 +5,11 @@ logs
 # Dependency directory
 node_modules
 
-# Misc
-.DS_Store
-
 # Test coverage reports
 coverage
+
+# VSCode
+*.code-workspace
+
+# Misc
+.DS_Store
