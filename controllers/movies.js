@@ -26,8 +26,13 @@ export async function createMovie(req, res, next) {
   }
 }
 
-export function getMovies() {
-  throw new Error('Not implemented');
+export async function getMovies(req, res, next) {
+  try {
+    const movies = await Movie.find({});
+    res.send(movies);
+  } catch (err) {
+    next(err);
+  }
 }
 
 export function deleteMovie() {

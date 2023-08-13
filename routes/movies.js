@@ -1,10 +1,11 @@
 import express from 'express';
 
-import { createMovie } from '../controllers/movies.js';
+import { createMovie, getMovies } from '../controllers/movies.js';
 import allMovieFields from './movies.validator.js';
 
 const router = express.Router();
 
 router.post('/', allMovieFields, createMovie);
+router.get('/', getMovies);
 
 export default router;
