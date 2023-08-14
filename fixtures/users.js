@@ -1,4 +1,4 @@
-import { userValidationSettings as settings } from '../utils/constants.js';
+import { validationSettings as settings } from '../utils/constants.js';
 
 export const DEFAULT_USER = {
   email: 'test.email@testdomain.com',
