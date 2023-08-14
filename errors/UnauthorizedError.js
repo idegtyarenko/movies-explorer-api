@@ -3,7 +3,7 @@ import { errorMessages } from '../utils/strings.js';
 
 export default class UnauthorizedError extends Error {
   constructor() {
-    super(errorMessages.FORBIDDEN);
+    super(errorMessages.UNAUTHORIZED);
     this.statusCode = statusCodes.FORBIDDEN;
   }
 }
