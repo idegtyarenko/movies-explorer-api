@@ -8,9 +8,9 @@ import {
 import { successMessages } from '../utils/strings.js';
 import ValidationError from '../errors/ValidationError.js';
 import ConflictingMovieError from '../errors/ConflictingMovieError.js';
-import ForbiddenError from '../errors/ForbiddenError.js';
 import InvalidIdError from '../errors/InvalidIdError.js';
 import NotFoundError from '../errors/NotFoundError.js';
+import NotOwnDataError from '../errors/NotOwnDataError.js';
 
 export async function createMovie(req, res, next) {
   try {
@@ -55,7 +55,7 @@ export async function deleteMovie(req, res, next) {
       await Movie.findByIdAndDelete(movie._id);
       res.send(successMessages.MOVIE_DELETED);
     } else {
-      throw new ForbiddenError();
+      throw new NotOwnDataError();
     }
   } catch (err) {
     if (err instanceof MongooseError.CastError) {
