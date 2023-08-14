@@ -53,7 +53,7 @@ export async function deleteMovie(req, res, next) {
     }
     if (isCurrentUsersMovie(movie, req)) {
       await Movie.findByIdAndDelete(movie._id);
-      res.send(successMessages.MOVIE_DELETED);
+      res.send({ message: successMessages.MOVIE_DELETED });
     } else {
       throw new NotOwnDataError();
     }
