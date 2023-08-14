@@ -60,5 +60,6 @@ const movieSchema = new SchemaWithEscapedFields({
 }, ['director', 'description', 'nameRU', 'nameEN']);
 
 movieSchema.index({ owner: 1, movieId: 1 }, { unique: true });
+movieSchema.index({ owner: 1 });
 
 export default mongoose.model('movie', movieSchema);
