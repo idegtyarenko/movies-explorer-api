@@ -13,4 +13,5 @@ export const successMessages = {
   SIGNIN: 'Вы успешно авторизовались',
   SIGNOUT: 'Вы успешно вышли',
   SIGNUP: 'Вы успешно зарегистрировались',
+  MOVIE_DELETED: 'Фильм удален из избранных',
 };
