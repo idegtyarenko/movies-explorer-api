@@ -30,9 +30,9 @@ export async function createMovie(req, res, next) {
   }
 }
 
-export async function getMovies(req, res, next) {
+export async function getOwnMovies(req, res, next) {
   try {
-    const movies = await Movie.find({});
+    const movies = await Movie.find({ owner: req.user._id });
     res.send(movies);
   } catch (err) {
     next(err);
