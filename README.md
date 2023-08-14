@@ -5,5 +5,5 @@
 
 ## Ссылки на проект
 
-IP 158.160.39.240
-https://api.smotrim.nomoreparties.co
+* IP 158.160.39.240
+* https://api.smotrim.nomoreparties.co
