@@ -10,7 +10,7 @@ import NotFoundError from '../errors/NotFoundError.js';
 const router = express.Router();
 router.post('/signup', allUserFields, signup);
 router.post('/signin', signin);
-router.post('/signout', signout);
+router.post('/signout', auth, signout);
 router.use('/users', auth, users);
 router.use('/movies', auth, movies);
 router.all('*', (req, res, next) => {
