@@ -1,0 +1,20 @@
+{
+  "extends": "airbnb-base",
+  "env": {
+    "jest": true
+  },
+  "overrides": [
+    {
+      "files": ["*.js"],
+      "rules": {
+        "no-underscore-dangle": "off",
+        "import/extensions": [
+          "error",
+          {
+              "js": "ignorePackages"
+          }
+        ]
+      }
+    }
+  ]
+}

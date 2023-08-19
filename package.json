@@ -1,0 +1,50 @@
+{
+  "name": "movies-explorer-api",
+  "version": "1.0.0",
+  "description": "Server API for storing user and movie data for Movies explorer",
+  "main": "app.js",
+  "type": "module",
+  "scripts": {
+    "start": "node --experimental-modules server.js",
+    "dev": "nodemon --experimental-modules server.js",
+    "lint": "npx eslint .",
+    "test": "jest",
+    "test-leaks": "jest --detectOpenHandles",
+    "test-coverage": "jest --coverage"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/idegtyarenko/movies-explorer-api.git"
+  },
+  "author": "Ivan Degtiarenko",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/idegtyarenko/movies-explorer-api/issues"
+  },
+  "homepage": "https://github.com/idegtyarenko/movies-explorer-api#readme",
+  "devDependencies": {
+    "@babel/plugin-transform-modules-commonjs": "^7.22.5",
+    "eslint": "^8.46.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.28.0",
+    "jest": "^29.6.2",
+    "nodemon": "^3.0.1",
+    "supertest": "^6.3.3"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.2",
+    "celebrate": "^15.0.1",
+    "cookie-parser": "^1.4.6",
+    "dotenv": "^16.3.1",
+    "escape-html": "^1.0.3",
+    "express": "^4.18.2",
+    "express-rate-limit": "^6.9.0",
+    "express-winston": "^4.2.0",
+    "helmet": "^7.0.0",
+    "jsonwebtoken": "^9.0.1",
+    "mongoose": "^7.4.2",
+    "validator": "^13.11.0",
+    "winston": "^3.10.0"
+  }
+}
