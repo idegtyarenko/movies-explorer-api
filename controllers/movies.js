@@ -11,6 +11,7 @@ import ConflictingMovieError from '../errors/ConflictingMovieError.js';
 import InvalidIdError from '../errors/InvalidIdError.js';
 import NotFoundError from '../errors/NotFoundError.js';
 import NotOwnDataError from '../errors/NotOwnDataError.js';
+import unescapeObjectFields from '../utils/utils.js';
 
 export async function createMovie(req, res, next) {
   try {
@@ -33,7 +34,8 @@ export async function createMovie(req, res, next) {
 export async function getOwnMovies(req, res, next) {
   try {
     const movies = await Movie.find({ owner: req.user._id });
-    res.send(movies);
+    const unescapedMovies = movies.map((movie) => unescapeObjectFields(movie.toObject()));
+    res.send(unescapedMovies);
   } catch (err) {
     next(err);
   }

@@ -16,6 +16,7 @@ import ValidationError from '../errors/ValidationError.js';
 import ConflictingEmailError from '../errors/ConflictingEmailError.js';
 import NotFoundError from '../errors/NotFoundError.js';
 import InvalidIdError from '../errors/InvalidIdError.js';
+import unescapeObjectFields from '../utils/utils.js';
 
 async function prepareData(data) {
   const hash = data.password ? await bcrypt.hash(data.password, HASH_SALT_LENGTH) : undefined;
@@ -79,7 +80,8 @@ export async function getCurrentUser(req, res, next) {
     if (user === null) {
       throw new NotFoundError();
     } else {
-      res.send(user);
+      const unescapedUser = unescapeObjectFields(user.toObject());
+      res.send(unescapedUser);
     }
   } catch (err) {
     if (err instanceof MongooseError.CastError) {
