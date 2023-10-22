@@ -4,18 +4,19 @@ import escape from 'escape-html';
 export default class SchemaWithEscapedFields extends mongoose.Schema {
   constructor(definition, escapedFieldNames) {
     super(definition);
-    this.pre('save', function escapeSpecialCharactersOnSave(next) {
-      escapedFieldNames.forEach((name) => {
-        this[name] = escape(this[name]);
-      });
-      next();
-    });
-    this.pre('findOneAndUpdate', function escapeSpecialCharactersOnUpdate(next) {
-      escapedFieldNames.forEach((name) => {
-        if (this._update[name]) {
-          this._update[name] = escape(this._update[name]);
-        }
-      });
+
+    this.pre(['save', 'findOneAndUpdate'], function escapeSpecialCharacters(next) {
+      if (this._update) {
+        escapedFieldNames.forEach((name) => {
+          if (this._update.$set && this._update.$set[name]) {
+            this._update.$set[name] = escape(this._update.$set[name]);
+          }
+        });
+      } else {
+        escapedFieldNames.forEach((name) => {
+          this[name] = escape(this[name]);
+        });
+      }
       next();
     });
   }
