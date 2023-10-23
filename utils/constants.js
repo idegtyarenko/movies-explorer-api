@@ -12,9 +12,9 @@ export const JWT_COOKIE_MAX_AGE = 1000 * 60 * 60 * 24 * 7; // 1 week
 
 export const validationSettings = {
   STRING_MIN: 2,
-  SHORT_STRING_MAX: 30,
+  SHORT_STRING_MAX: 100,
   LONG_STRING_MAX: 2000,
-  COUNTRY_PATTERN: /[\p{L}\- ()']*/u, // Supports Côte D'Ivoire
+  COUNTRY_PATTERN: /[\p{L}\- (),']*/u, // Supports Côte D'Ivoire
   EMAIL_MAX: 128,
   PASSWORD_MIN: 6,
   PASSWORD_MAX: 30,
