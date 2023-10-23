@@ -68,7 +68,10 @@ export async function signin(req, res, next) {
 
 export function signout(req, res, next) {
   try {
-    res.clearCookie('jwt').send({ message: successMessages.SIGNOUT });
+    res.clearCookie('jwt', {
+      sameSite: 'None',
+      secure: true,
+    }).send({ message: successMessages.SIGNOUT });
   } catch (err) {
     next(err);
   }
