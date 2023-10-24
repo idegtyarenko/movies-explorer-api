@@ -18,6 +18,12 @@ import NotFoundError from '../errors/NotFoundError.js';
 import InvalidIdError from '../errors/InvalidIdError.js';
 import unescapeObjectFields from '../utils/utils.js';
 
+const COOKIE_SETTINGS = {
+  httpOnly: true,
+  sameSite: true,
+  secure: true,
+};
+
 async function prepareData(data) {
   const hash = data.password ? await bcrypt.hash(data.password, HASH_SALT_LENGTH) : undefined;
   return {
@@ -30,9 +36,8 @@ function setAuthCookie(user, res) {
   const tokenPayload = { _id: user._id };
   const token = jwt.sign(tokenPayload, JWT_KEY, JWT_SETTINGS);
   const cookieSettings = {
+    ...COOKIE_SETTINGS,
     maxAge: JWT_COOKIE_MAX_AGE,
-    httpOnly: true,
-    sameSite: true,
   };
   res.cookie('jwt', token, cookieSettings);
 }
@@ -68,10 +73,7 @@ export async function signin(req, res, next) {
 
 export function signout(req, res, next) {
   try {
-    res.clearCookie('jwt', {
-      sameSite: true,
-      secure: true,
-    }).send({ message: successMessages.SIGNOUT });
+    res.clearCookie('jwt', COOKIE_SETTINGS).send({ message: successMessages.SIGNOUT });
   } catch (err) {
     next(err);
   }
